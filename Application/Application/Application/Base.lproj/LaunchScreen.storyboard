@@ -15,12 +15,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" fixedFrame="YES" image="logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="Wox-lu-k7e">
-                                <rect key="frame" x="11" y="157" width="392" height="527"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="Wox-lu-k7e">
+                                <rect key="frame" x="11" y="189.5" width="392" height="527"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="Wox-lu-k7e" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="4lG-Qt-6mZ"/>
+                            <constraint firstItem="Wox-lu-k7e" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="glH-9N-jB6"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                 </viewController>

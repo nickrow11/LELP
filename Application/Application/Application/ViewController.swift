@@ -28,7 +28,6 @@ class ViewController: UIViewController {
         VibrateButton.layer.cornerRadius = 10
         TempButton.layer.cornerRadius = 10
         BatteryButton.layer.cornerRadius = 10
-        TitleBar.isEditable = false
         
         // Do any additional setup after loading the view.
     }
