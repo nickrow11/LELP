@@ -1,20 +1,23 @@
 //
-//  ViewController.swift
-//  Application
+//  Bluetooth.swift
+//  ApplicationTests
 //
-//  Created by Admin on 9/29/19.
+//  Created by Admin on 11/3/19.
 //  Copyright © 2019 Admin. All rights reserved.
 //
 
+import XCTest
 import UIKit
 import CoreBluetooth
 
-class ViewController: UIViewController, CBPeripheralDelegate, CBCentralManagerDelegate {
-    
+
+class Bluetooth: UIViewController, CBPeripheralDelegate, CBCentralManagerDelegate {
+
     //variables for Bluetooth
     private var centralManager: CBCentralManager!
     private var peripheral: CBPeripheral!
     
+            centralManager = CBCentralManager(delegate: self, queue: nil)
     
     //BEGINNING OF BLUETOOTH FUNCTIONS
     //scan for devices (status update)
@@ -88,17 +91,9 @@ class ViewController: UIViewController, CBPeripheralDelegate, CBCentralManagerDe
             for characteristic in characteristics {
                 if characteristic.uuid == ParticlePeripheral.redLEDCharacteristicUUID{
                     print("Red LED found")
-                    Red = characteristic
-                    print("Red: ", Red)
-                    let test1:UInt8 = UInt8(0)
-                    peripheral.writeValue(Data([test1]), for: characteristic, type: .withoutResponse)
                 }
                 if characteristic.uuid == ParticlePeripheral.greenLEDCharacteristicUUID{
                     print("Green LED found")
-                    Green = characteristic
-                    print("Green: ", Green)
-                    let test:UInt8 = UInt8(0)
-                    peripheral.writeValue(Data([test]), for: characteristic, type: .withoutResponse)
                 }
                 if characteristic.uuid == ParticlePeripheral.blueLEDCharacteristicUUID{
                     print("Blue LED found")
@@ -106,72 +101,18 @@ class ViewController: UIViewController, CBPeripheralDelegate, CBCentralManagerDe
             }
         }
     }
-    
-    private func writeLEDValueToChar( withCharacteristic characteristic: CBCharacteristic, withValue value: Data ) {
-        
-        if characteristic.properties.contains(.writeWithoutResponse) && peripheral != nil {
-            peripheral.writeValue(value, for: characteristic, type: .withoutResponse)
-        }
+
+        // UI tests must launch the application that they test. Doing this in setup will make sure it happens for each test method.
+        XCUIApplication().launch()
+
+        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
     }
 
-    //BUTTONS ON LIGHTS PAGE
-    private var Red: CBCharacteristic?
-    private var Green: CBCharacteristic?
-    public var gVal:UInt8 = UInt8(0)
-    public var rVal:UInt8 = UInt8(0)
-    
-    @IBAction func GButton(_ sender: Any) {
-        if gVal == UInt8(0) {
-            gVal = UInt8(1)
-        } else {
-            gVal = UInt8(0)
-        }
-            
-        writeLEDValueToChar( withCharacteristic: Green!, withValue: Data([gVal]))
-    }
-    
-    @IBAction func RButton(_ sender: Any) {
-        if rVal == UInt8(0) {
-            rVal = UInt8(1)
-        } else {
-            rVal = UInt8(0)
-        }
-            
-        writeLEDValueToChar( withCharacteristic: Red!, withValue: Data([rVal]))
-    }
-    
-    //END OF BLUETOOTH
-    
-    
-    //BEGINNING OF UI FUNCTIONALITY
-    //variables for buttons to link
-    @IBOutlet weak var LightsButton: UIButton!
-    @IBOutlet weak var PowerButton: UIButton!
-    @IBOutlet weak var AudioButton: UIButton!
-    @IBOutlet weak var VibrateButton: UIButton!
-    @IBOutlet weak var TempButton: UIButton!
-    @IBOutlet weak var BatteryButton: UIButton!
-    @IBOutlet weak var TitleBar: UITextView!
-    
-    override func viewDidLoad() {
-        
-        super.viewDidLoad()
-        
-        
-        
-        //Bluetooth thing
-        centralManager = CBCentralManager(delegate: self, queue: nil)
-        
-        PowerButton.layer.cornerRadius = 10
-        LightsButton.layer.cornerRadius = 10
-        AudioButton.layer.cornerRadius = 10
-        VibrateButton.layer.cornerRadius = 10
-        TempButton.layer.cornerRadius = 10
-        BatteryButton.layer.cornerRadius = 10
-        
-        // Do any additional setup after loading the view.
-    }
 
+
+    func testExample() {
+        // Use recording to get started writing UI tests.
+        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    }
 
 }
-

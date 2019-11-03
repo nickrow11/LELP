@@ -15,6 +15,7 @@
 		845F1B8423415051001955AB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 845F1B8223415051001955AB /* LaunchScreen.storyboard */; };
 		845F1B8F23415052001955AB /* ApplicationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845F1B8E23415052001955AB /* ApplicationTests.swift */; };
 		845F1B9A234153DB001955AB /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 845F1B99234153DB001955AB /* logo.png */; };
+		84EB44BA2368DE2600445832 /* ParticlePeripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EB44B92368DE2600445832 /* ParticlePeripheral.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,7 @@
 		845F1B8E23415052001955AB /* ApplicationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationTests.swift; sourceTree = "<group>"; };
 		845F1B9023415052001955AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		845F1B99234153DB001955AB /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo.png; path = ../../../logo.png; sourceTree = "<group>"; };
+		84EB44B92368DE2600445832 /* ParticlePeripheral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticlePeripheral.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +91,7 @@
 				845F1B8223415051001955AB /* LaunchScreen.storyboard */,
 				845F1B99234153DB001955AB /* logo.png */,
 				845F1B8523415051001955AB /* Info.plist */,
+				84EB44B92368DE2600445832 /* ParticlePeripheral.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -207,6 +210,7 @@
 				845F1B7C2341504F001955AB /* ViewController.swift in Sources */,
 				845F1B782341504F001955AB /* AppDelegate.swift in Sources */,
 				845F1B7A2341504F001955AB /* SceneDelegate.swift in Sources */,
+				84EB44BA2368DE2600445832 /* ParticlePeripheral.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
