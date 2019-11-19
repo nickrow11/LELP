@@ -15,6 +15,8 @@
 		845F1B8423415051001955AB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 845F1B8223415051001955AB /* LaunchScreen.storyboard */; };
 		845F1B8F23415052001955AB /* ApplicationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845F1B8E23415052001955AB /* ApplicationTests.swift */; };
 		845F1B9A234153DB001955AB /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 845F1B99234153DB001955AB /* logo.png */; };
+		84BC13F02381E91900B87FA7 /* uniBluetooth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC13EF2381E91900B87FA7 /* uniBluetooth.swift */; };
+		84BC13F2238351BB00B87FA7 /* Variables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC13F1238351BB00B87FA7 /* Variables.swift */; };
 		84EB44BA2368DE2600445832 /* ParticlePeripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EB44B92368DE2600445832 /* ParticlePeripheral.swift */; };
 /* End PBXBuildFile section */
 
@@ -41,6 +43,8 @@
 		845F1B8E23415052001955AB /* ApplicationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationTests.swift; sourceTree = "<group>"; };
 		845F1B9023415052001955AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		845F1B99234153DB001955AB /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo.png; path = ../../../logo.png; sourceTree = "<group>"; };
+		84BC13EF2381E91900B87FA7 /* uniBluetooth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = uniBluetooth.swift; path = Application/uniBluetooth.swift; sourceTree = SOURCE_ROOT; };
+		84BC13F1238351BB00B87FA7 /* Variables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Variables.swift; sourceTree = "<group>"; };
 		84EB44B92368DE2600445832 /* ParticlePeripheral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticlePeripheral.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -86,12 +90,14 @@
 				845F1B772341504F001955AB /* AppDelegate.swift */,
 				845F1B792341504F001955AB /* SceneDelegate.swift */,
 				845F1B7B2341504F001955AB /* ViewController.swift */,
+				84BC13F1238351BB00B87FA7 /* Variables.swift */,
 				845F1B7D2341504F001955AB /* Main.storyboard */,
 				845F1B8023415051001955AB /* Assets.xcassets */,
 				845F1B8223415051001955AB /* LaunchScreen.storyboard */,
 				845F1B99234153DB001955AB /* logo.png */,
 				845F1B8523415051001955AB /* Info.plist */,
 				84EB44B92368DE2600445832 /* ParticlePeripheral.swift */,
+				84BC13EF2381E91900B87FA7 /* uniBluetooth.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -210,7 +216,9 @@
 				845F1B7C2341504F001955AB /* ViewController.swift in Sources */,
 				845F1B782341504F001955AB /* AppDelegate.swift in Sources */,
 				845F1B7A2341504F001955AB /* SceneDelegate.swift in Sources */,
+				84BC13F2238351BB00B87FA7 /* Variables.swift in Sources */,
 				84EB44BA2368DE2600445832 /* ParticlePeripheral.swift in Sources */,
+				84BC13F02381E91900B87FA7 /* uniBluetooth.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
