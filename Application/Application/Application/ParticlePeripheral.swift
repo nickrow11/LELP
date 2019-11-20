@@ -9,6 +9,7 @@
 import UIKit
 import CoreBluetooth
 
+//class to save all predefined peripheral UUIDs
 class ParticlePeripheral: NSObject {
     
     //leds

@@ -11,37 +11,27 @@ import Foundation
 import UIKit
 import CoreBluetooth
 
+//class for all bluetooth functionality
 class bluetoothData: NSObject, CBPeripheralDelegate, CBCentralManagerDelegate {
     public var centralManager: CBCentralManager!
     private var peripheral: CBPeripheral!
     
+    //starts the bluetooth connectivity process
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
-        //update(newOut: "Central state update")
         print("Central state update")
         if central.state != .poweredOn{
-            //update(newOut: "Central is not powered on")
             print("Central is not powered on")
         }
         else{
-            //update(newOut: "Central scanning")
             print("Central scanning for", ParticlePeripheral.particleLEDServiceUUID);
             centralManager.scanForPeripherals(withServices: [ParticlePeripheral.particleLEDServiceUUID], options: [ CBCentralManagerScanOptionAllowDuplicatesKey: true])
         }
     }
     
-    /*@IBOutlet weak var output: UITextView!
-    func update(newOut: String){
-        DispatchQueue.main.async {
-            let Textfield = self.output.text+"\n"+newOut
-            self.output.text = Textfield
-        }
-    }*/
-    
-    //have found device (did discover)
+    //finds the device that is being serched for and saves peripheral information to use in other classes
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String: Any], rssi RSSI:NSNumber) {
         //Found the device, so stop the scan
         self.centralManager.stopScan()
-        //update(newOut: "found device")
         print("found device")
         
         //copy the peripheral instance
@@ -53,28 +43,29 @@ class bluetoothData: NSObject, CBPeripheralDelegate, CBCentralManagerDelegate {
         variables.vars.peripheral = self.peripheral
     }
     
+    //function that writes a UInt8 type variable to the board's LEDs
     public func writeLEDValueToChar(_ peripheral: CBPeripheral, type: String ) {
         
-        if type == "red" && variables.vars.redLED != nil {
+        if type == "vibrate" && variables.vars.redLED != nil {
             print(variables.vars.redLED!)
             peripheral.writeValue(Data([variables.vars.redLEDVal!]), for: variables.vars.redLED!, type: .withoutResponse)
         }
-        if type == "green" && variables.vars.greenLED != nil {
+        if type == "led" && variables.vars.greenLED != nil {
             print(variables.vars.greenLED!)
             peripheral.writeValue(Data([variables.vars.greenLEDVal!]), for: variables.vars.greenLED!, type: .withoutResponse)
         }
     }
     
+    //function that finds all available peripherals in a bluetooth device when connected
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
         if peripheral == self.peripheral{
-            //update(newOut: "Connected to your device")
             print("Connected to your device")
             peripheral.discoverServices([ParticlePeripheral.buttonServiceUUID])
             peripheral.discoverServices([ParticlePeripheral.particleLEDServiceUUID])
         }
     }    
     
-    //check services (discover services)
+    //check if services that are predefined exist
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
         if let services = peripheral.services {
             for service in services {
@@ -93,7 +84,7 @@ class bluetoothData: NSObject, CBPeripheralDelegate, CBCentralManagerDelegate {
         }
     }
     
-    //Checking and comparing all characteristics with the ones we are looking for (discover chars)
+    //attemps at connecting to all predefined peripherals that were found, then saves all necesarry information to allow other classes to manipulate the peripherals
     public func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
         if let characteristics = service.characteristics {
             for characteristic in characteristics {
@@ -108,17 +99,13 @@ class bluetoothData: NSObject, CBPeripheralDelegate, CBCentralManagerDelegate {
                     variables.vars.button2 = characteristic
                 }
                 if characteristic.uuid == ParticlePeripheral.redLEDCharacteristicUUID{
-                    print("Red LED found")
                     peripheral.setNotifyValue(false, for: characteristic)
                     variables.vars.redLED = characteristic
-                    print("Red: ", variables.vars.redLED as Any)
                     variables.vars.redLEDVal = UInt8(0)
                     peripheral.writeValue(Data([variables.vars.redLEDVal!]), for: variables.vars.redLED!, type: .withoutResponse)
                 }
                 if characteristic.uuid == ParticlePeripheral.greenLEDCharacteristicUUID{
-                    print("Green LED found")
                     variables.vars.greenLED = characteristic
-                    print("Green: ", variables.vars.greenLED as Any)
                     variables.vars.greenLEDVal = UInt8(0)
                     peripheral.writeValue(Data([variables.vars.greenLEDVal!]), for: variables.vars.greenLED!, type: .withoutResponse)
                 }
@@ -129,11 +116,7 @@ class bluetoothData: NSObject, CBPeripheralDelegate, CBCentralManagerDelegate {
         }
     }
     
-    /*@IBAction func UpdateButton(_ sender: Any) {
-        ReadButtonVal( withCharacteristic: Green!)
-    }*/
-    
-    
+    //function that rescans for bluetooth functionality when peripherals or device disconnects
     private func centralManager(_central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?){
         if peripheral == self.peripheral
         {
@@ -145,6 +128,7 @@ class bluetoothData: NSObject, CBPeripheralDelegate, CBCentralManagerDelegate {
         centralManager.scanForPeripherals(withServices: [ParticlePeripheral.particleLEDServiceUUID], options:[CBCentralManagerScanOptionAllowDuplicatesKey: true])
     }
     
+    //function that runs when the class is instantiated in AppDelegate (forces the required bluetooth functions to run and connect to device)
     required override init() {
         super.init()
         centralManager = CBCentralManager(delegate: self, queue: nil)

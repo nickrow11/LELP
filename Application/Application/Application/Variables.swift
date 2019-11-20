@@ -11,6 +11,7 @@ import Foundation
 import UIKit
 import CoreBluetooth
 
+//class that saves all the necessary variables that are needed to be shared across all classes
 class variables {
     public var button1: CBCharacteristic?
     public var button2: CBCharacteristic?

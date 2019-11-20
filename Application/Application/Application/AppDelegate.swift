@@ -12,11 +12,14 @@ import CoreBluetooth
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
+    //initializes the bluetooth class on app startup
+    var ble: bluetoothData!
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        //bluetoothData()
+        
+        //variable used to allow other classes to reference the bluetooth class
+        ble = bluetoothData()
         
         return true
     }
