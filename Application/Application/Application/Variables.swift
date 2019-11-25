@@ -19,6 +19,10 @@ class variables {
     public var greenLED: CBCharacteristic?
     public var redLEDVal: UInt8?
     public var greenLEDVal: UInt8?
+    public var dataStream: CBCharacteristic?
+    public var dataStreamLEDArray: [UInt8]?
+    public var dataStreamVibrateArray: [UInt8]?
+    public var Temp: NSData?
     public var peripheral: CBPeripheral?
     public static let vars = variables()
 }

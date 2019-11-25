@@ -25,6 +25,9 @@ class ParticlePeripheral: NSObject {
     public static let button1ValUUID = CBUUID.init(string: "f0001121-0451-4000-b000-000000000000")
     public static let button2ValUUID = CBUUID.init(string: "f0001122-0451-4000-b000-000000000000")
     
+    public static let dataStreamServiceUUID = CBUUID.init(string: "F0001130-0451-4000-B000-000000000000")
+    public static let dataStreamUUID = CBUUID.init(string: "F0001131-0451-4000-B000-000000000000")
+    
  /*   public static let redLEDCharacteristicUUID = CBUUID.init(string: "b4250401-fb4b-4746-b2b0-93f0e61122c6")
     public static let greenLEDCharacteristicUUID = CBUUID.init(string: "b4250402-fb4b-4746-b2b0-93f0e61122c6")
     public static let blueLEDCharacteristicUUID = CBUUID.init(string: "b4250403-fb4b-4746-b2b0-93f0e61122c6")*/

@@ -50,10 +50,49 @@ class bluetoothData: NSObject, CBPeripheralDelegate, CBCentralManagerDelegate {
             print(variables.vars.redLED!)
             peripheral.writeValue(Data([variables.vars.redLEDVal!]), for: variables.vars.redLED!, type: .withoutResponse)
         }
-        if type == "led" && variables.vars.greenLED != nil {
-            print(variables.vars.greenLED!)
-            peripheral.writeValue(Data([variables.vars.greenLEDVal!]), for: variables.vars.greenLED!, type: .withoutResponse)
+    }
+    
+    public func changeLEDColor(_ peripheral: CBPeripheral, value: Int, color: String ) {
+        if value == 0 {
+            if color == "red" {
+                variables.vars.dataStreamLEDArray![2] = 0x00
+                peripheral.writeValue(Data(_: variables.vars.dataStreamLEDArray!), for: variables.vars.dataStream!, type: .withResponse)
+            } else if color == "green" {
+                variables.vars.dataStreamLEDArray![3] = 0x00
+                peripheral.writeValue(Data(_: variables.vars.dataStreamLEDArray!), for: variables.vars.dataStream!, type: .withResponse)
+            } else {
+                variables.vars.dataStreamLEDArray![4] = 0x00
+                peripheral.writeValue(Data(_: variables.vars.dataStreamLEDArray!), for: variables.vars.dataStream!, type: .withResponse)
+            }
+        } else {
+            if color == "red" {
+                variables.vars.dataStreamLEDArray![2] = 0x01
+                peripheral.writeValue(Data(_: variables.vars.dataStreamLEDArray!), for: variables.vars.dataStream!, type: .withResponse)
+            } else if color == "green" {
+                variables.vars.dataStreamLEDArray![3] = 0x01
+                peripheral.writeValue(Data(_: variables.vars.dataStreamLEDArray!), for: variables.vars.dataStream!, type: .withResponse)
+            } else {
+                variables.vars.dataStreamLEDArray![4] = 0x01
+                peripheral.writeValue(Data(_: variables.vars.dataStreamLEDArray!), for: variables.vars.dataStream!, type: .withResponse)
+            }
         }
+    }
+    
+    public func toggleVibrate(_ peripheral: CBPeripheral, value: Int ) {
+        if value == 0 {
+            variables.vars.dataStreamVibrateArray![2] = 0x00
+            peripheral.writeValue(Data(_: variables.vars.dataStreamVibrateArray!), for: variables.vars.dataStream!, type: .withResponse)
+        } else {
+            variables.vars.dataStreamVibrateArray![2] = 0x01
+            peripheral.writeValue(Data(_: variables.vars.dataStreamVibrateArray!), for: variables.vars.dataStream!, type: .withResponse)
+        }
+    }
+    
+    public func readTempVal(_ peripheral: CBPeripheral) {
+        let data:[UInt8] = [0x03, 0xE0]
+        peripheral.writeValue(Data(_: data), for: variables.vars.dataStream!, type: .withResponse)
+        let val = variables.vars.dataStream!.value ?? NSData() as Data
+        variables.vars.Temp = val as NSData
     }
     
     //function that finds all available peripherals in a bluetooth device when connected
@@ -62,6 +101,7 @@ class bluetoothData: NSObject, CBPeripheralDelegate, CBCentralManagerDelegate {
             print("Connected to your device")
             peripheral.discoverServices([ParticlePeripheral.buttonServiceUUID])
             peripheral.discoverServices([ParticlePeripheral.particleLEDServiceUUID])
+            peripheral.discoverServices([ParticlePeripheral.dataStreamServiceUUID])
         }
     }    
     
@@ -78,6 +118,12 @@ class bluetoothData: NSObject, CBPeripheralDelegate, CBCentralManagerDelegate {
                     print("LED service found")
                     //discover characteristics
                     peripheral.discoverCharacteristics([ParticlePeripheral.redLEDCharacteristicUUID, ParticlePeripheral.greenLEDCharacteristicUUID, ParticlePeripheral.blueLEDCharacteristicUUID], for: service)
+                }
+                if service.uuid == ParticlePeripheral.dataStreamServiceUUID {
+                    print("Data Stream found")
+                    //discover characteristic
+                    peripheral.discoverCharacteristics(
+                        [ParticlePeripheral.dataStreamUUID], for: service)
                 }
             }
             return
@@ -99,7 +145,6 @@ class bluetoothData: NSObject, CBPeripheralDelegate, CBCentralManagerDelegate {
                     variables.vars.button2 = characteristic
                 }
                 if characteristic.uuid == ParticlePeripheral.redLEDCharacteristicUUID{
-                    peripheral.setNotifyValue(false, for: characteristic)
                     variables.vars.redLED = characteristic
                     variables.vars.redLEDVal = UInt8(0)
                     peripheral.writeValue(Data([variables.vars.redLEDVal!]), for: variables.vars.redLED!, type: .withoutResponse)
@@ -111,6 +156,17 @@ class bluetoothData: NSObject, CBPeripheralDelegate, CBCentralManagerDelegate {
                 }
                 if characteristic.uuid == ParticlePeripheral.blueLEDCharacteristicUUID{
                     print("Blue LED found")
+                }
+                if characteristic.uuid == ParticlePeripheral.dataStreamUUID{
+                    variables.vars.dataStream = characteristic
+                    variables.vars.dataStreamLEDArray = [0x05, 0xC0, 0x00, 0x00, 0x00]
+                    variables.vars.dataStreamVibrateArray = [0x03, 0xD0, 0x00]
+                    //let data:[UInt8] = [0x03, 0xE0]
+                    //peripheral.writeValue(Data(_: data), for: variables.vars.dataStream!, type: .withResponse)
+                    //let val = characteristic.value ?? NSData() as Data
+                    //print(val as NSData)
+                    //var temp = val as NSData
+                    //print(temp[2])
                 }
             }
         }

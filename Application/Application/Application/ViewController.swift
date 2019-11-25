@@ -19,11 +19,12 @@ class ViewController: UIViewController {
     @IBOutlet weak var lightsButton: UIButton!
     @IBOutlet weak var vibrateButton: UIButton!
     @IBOutlet weak var audioButton: UIButton!
+    @IBOutlet weak var tempValue: UILabel!
     
     //temp function for reading physical button values
     @IBAction func readButtons(_ sender: Any) {
-        print("Button 1: ", variables.vars.button1!)
-        print("Button 2: ", variables.vars.button2!)
+        bluetoothData().readTempVal(variables.vars.peripheral!)
+        tempValue.text = "\(variables.vars.Temp![2])°"
     }
     
     //override function that adds settings to present buttons
@@ -33,6 +34,7 @@ class ViewController: UIViewController {
         lightsButton.layer.cornerRadius = 5
         vibrateButton.layer.cornerRadius = 5
         audioButton.layer.cornerRadius = 5
+        readButtons.layer.cornerRadius = 5
     }
 
 
@@ -40,26 +42,40 @@ class ViewController: UIViewController {
 
 //class that controls all UI functions on lights subclass
 class lightsViewController: UIViewController {
-    @IBOutlet weak var onLED: UIButton!
-    @IBOutlet weak var offLED: UIButton!
     
-    //function that toggles all the LEDs on and off, controlled by "LEDs On" button
-    @IBAction func toggleLED(_ sender: Any) {
-        if variables.vars.greenLEDVal == UInt8(0) {
-            variables.vars.greenLEDVal = UInt8(1)
-        } else {
-            variables.vars.greenLEDVal = UInt8(0)
+    @IBAction func redLEDControl(_ sender: UISlider) {
+        let currentValue = Int(sender.value)
+        
+        if currentValue == 0 {
+            bluetoothData().changeLEDColor(variables.vars.peripheral!, value: currentValue, color: "red")
+        } else if currentValue == 255 {
+            bluetoothData().changeLEDColor(variables.vars.peripheral!, value: currentValue, color: "red")
         }
-            
-        bluetoothData().writeLEDValueToChar(variables.vars.peripheral!, type: "led")
+    }
+    
+    @IBAction func greenLEDControl(_ sender: UISlider) {
+        let currentValue = Int(sender.value)
+        
+        if currentValue == 0 {
+            bluetoothData().changeLEDColor(variables.vars.peripheral!, value: currentValue, color: "green")
+        } else if currentValue == 255 {
+            bluetoothData().changeLEDColor(variables.vars.peripheral!, value: currentValue, color: "green")
+        }
+    }
+    
+    @IBAction func blueLEDControl(_ sender: UISlider) {
+        let currentValue = Int(sender.value)
+        
+        if currentValue == 0 {
+            bluetoothData().changeLEDColor(variables.vars.peripheral!, value: currentValue, color: "blue")
+        } else if currentValue == 255 {
+            bluetoothData().changeLEDColor(variables.vars.peripheral!, value: currentValue, color: "blue")
+        }
     }
     
     //override function that adds settings to present buttons
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        onLED.layer.cornerRadius = 5
-        offLED.layer.cornerRadius = 5
     }
 }
 
@@ -79,25 +95,19 @@ class audioViewController: UIViewController {
 
 //class that controls all UI functions on lights subclass
 class vibrateViewController: UIViewController {
-    @IBOutlet weak var onVibrate: UIButton!
-    @IBOutlet weak var offVibrate: UIButton!
     
-    //function that toggles the vibration on and off, controlled by the "Vibrate On" button
-    @IBAction func toggleVibrate(_ sender: Any) {
-        if variables.vars.redLEDVal == UInt8(0) {
-            variables.vars.redLEDVal = UInt8(1)
-        } else {
-            variables.vars.redLEDVal = UInt8(0)
+    @IBAction func vibrateControl(_ sender: UISlider) {
+        let currentValue = Int(sender.value)
+        
+        if currentValue == 0 {
+            bluetoothData().toggleVibrate(variables.vars.peripheral!, value: currentValue)
+        } else if currentValue == 100 {
+            bluetoothData().toggleVibrate(variables.vars.peripheral!, value: currentValue)
         }
-            
-        bluetoothData().writeLEDValueToChar(variables.vars.peripheral!, type: "vibrate")
     }
     
     //override function that adds settings to present buttons
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        onVibrate.layer.cornerRadius = 5
-        offVibrate.layer.cornerRadius = 5
     }
 }
