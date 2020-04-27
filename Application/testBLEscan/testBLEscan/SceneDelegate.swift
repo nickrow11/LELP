@@ -1,9 +1,9 @@
 //
 //  SceneDelegate.swift
-//  Application
+//  testBLEscan
 //
-//  Created by Admin on 9/29/19.
-//  Copyright © 2019 Admin. All rights reserved.
+//  Created by Admin on 4/21/20.
+//  Copyright © 2020 Admin. All rights reserved.
 //
 
 import UIKit
@@ -48,4 +48,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
     }
 
+
 }
+

@@ -36,8 +36,6 @@ class ViewController: UIViewController {
         audioButton.layer.cornerRadius = 5
         readButtons.layer.cornerRadius = 5
     }
-
-
 }
 
 //class that controls all UI functions on lights subclass

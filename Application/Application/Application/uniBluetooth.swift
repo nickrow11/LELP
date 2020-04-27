@@ -7,7 +7,6 @@
 //
 
 import Foundation
-
 import UIKit
 import CoreBluetooth
 
@@ -23,16 +22,34 @@ class bluetoothData: NSObject, CBPeripheralDelegate, CBCentralManagerDelegate {
             print("Central is not powered on")
         }
         else{
-            print("Central scanning for", ParticlePeripheral.particleLEDServiceUUID);
-            centralManager.scanForPeripherals(withServices: [ParticlePeripheral.particleLEDServiceUUID], options: [ CBCentralManagerScanOptionAllowDuplicatesKey: true])
+            if central.state == .poweredOn {
+                print ("Bluetooth is On")
+                centralManager.scanForPeripherals(withServices: nil, options: nil)
+            }
+            else{
+                print ("Bluetooth is not active")
+            }
         }
     }
     
     //finds the device that is being serched for and saves peripheral information to use in other classes
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String: Any], rssi RSSI:NSNumber) {
+        
+        if(peripheral.name == "LullabyPacifier_BLE")
+        {
+        print("\nName   : \(peripheral.name ?? "(No name)")")
+        print("RSSI : \(RSSI)")
+        for ad in advertisementData{
+            print("AD Data: \(ad)")
+            }
+        }
+            
         //Found the device, so stop the scan
-        self.centralManager.stopScan()
-        print("found device")
+        if(peripheral.name == "LullabyPacifier_BLE")
+        {
+            self.centralManager.stopScan()
+            print("found device")
+        }
         
         //copy the peripheral instance
         self.peripheral = peripheral
@@ -80,7 +97,10 @@ class bluetoothData: NSObject, CBPeripheralDelegate, CBCentralManagerDelegate {
     
     public func toggleVibrate(_ peripheral: CBPeripheral, value: Int ) {
         if value == 0 {
-            variables.vars.dataStreamVibrateArray![2] = 0x00
+            variables.vars.dataStreamVibrateArray?[0] = 0x03
+            variables.vars.dataStreamVibrateArray?[1] = 0xD0
+            variables.vars.dataStreamVibrateArray?[2] = 0x01
+            //variables.vars.dataStreamVibrateArray![2] = 0x00
             peripheral.writeValue(Data(_: variables.vars.dataStreamVibrateArray!), for: variables.vars.dataStream!, type: .withResponse)
         } else {
             variables.vars.dataStreamVibrateArray![2] = 0x01
@@ -97,7 +117,7 @@ class bluetoothData: NSObject, CBPeripheralDelegate, CBCentralManagerDelegate {
     
     //function that finds all available peripherals in a bluetooth device when connected
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
-        if peripheral == self.peripheral{
+        if peripheral == self.peripheral && "LullabyPacifier_BLE" == self.peripheral.name{
             print("Connected to your device")
             peripheral.discoverServices([ParticlePeripheral.buttonServiceUUID])
             peripheral.discoverServices([ParticlePeripheral.particleLEDServiceUUID])
@@ -124,6 +144,7 @@ class bluetoothData: NSObject, CBPeripheralDelegate, CBCentralManagerDelegate {
                     //discover characteristic
                     peripheral.discoverCharacteristics(
                         [ParticlePeripheral.dataStreamUUID], for: service)
+                    print("\nDataStream uuid: ",service.uuid)
                 }
             }
             return
@@ -157,16 +178,22 @@ class bluetoothData: NSObject, CBPeripheralDelegate, CBCentralManagerDelegate {
                 if characteristic.uuid == ParticlePeripheral.blueLEDCharacteristicUUID{
                     print("Blue LED found")
                 }
-                if characteristic.uuid == ParticlePeripheral.dataStreamUUID{
+                if characteristic.uuid ==
+                    ParticlePeripheral.dataStreamCharacteristicUUID{
+                    print("test: ", characteristic.uuid)
                     variables.vars.dataStream = characteristic
                     variables.vars.dataStreamLEDArray = [0x05, 0xC0, 0x00, 0x00, 0x00]
                     variables.vars.dataStreamVibrateArray = [0x03, 0xD0, 0x00]
-                    //let data:[UInt8] = [0x03, 0xE0]
-                    //peripheral.writeValue(Data(_: data), for: variables.vars.dataStream!, type: .withResponse)
-                    //let val = characteristic.value ?? NSData() as Data
-                    //print(val as NSData)
-                    //var temp = val as NSData
-                    //print(temp[2])
+                    
+                    //earlier test for data output
+                    /*
+                    let data:[UInt8] = [0x03, 0xE0]
+                    peripheral.writeValue(Data(_: data), for: variables.vars.dataStream!, type: .withResponse)
+                    let val = characteristic.value ?? NSData() as Data
+                    print(val as NSData)
+                    var temp = val as NSData
+                    print(temp[2])
+                    */
                 }
             }
         }

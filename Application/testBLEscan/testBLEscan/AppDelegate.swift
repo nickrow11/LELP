@@ -1,26 +1,20 @@
 //
 //  AppDelegate.swift
-//  Application
+//  testBLEscan
 //
-//  Created by Admin on 9/29/19.
-//  Copyright © 2019 Admin. All rights reserved.
+//  Created by Admin on 4/21/20.
+//  Copyright © 2020 Admin. All rights reserved.
 //
 
 import UIKit
-import CoreBluetooth
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    //initializes the bluetooth class on app startup
-    var ble: bluetoothData!
+
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        
-        //variable used to allow other classes to reference the bluetooth class
-        ble = bluetoothData()
-        
         return true
     }
 
@@ -38,4 +32,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
 
+
 }
+
